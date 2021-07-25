@@ -1,0 +1,42 @@
+from sqlite3 import connect
+
+
+class Database():
+
+    @staticmethod
+    def select():
+        con = connect("HR.db")
+        my_cursor = con.cursor()
+        my_cursor.execute("SELECT * FROM workers")
+        result = my_cursor.fetchall()
+        # self.ui.tb1.setText(str(result))
+        con.close()
+        return result
+
+    @staticmethod
+    def insert(na_code,first_name,last_name):
+        con = connect("HR.db")
+        my_cursor = con.cursor()
+        my_cursor.execute(f'INSERT INTO workers(first_name,last_name,na_code) VALUES ("{first_name}","{last_name}","{na_code}")')
+        con.commit()
+        return True
+
+        # camera_port = 0
+        # camera = cv2.VideoCapture(camera_port)
+        # return_value, image = camera.read()
+        # cv2.imwrite("image.png", image)
+        # camera.release()
+        # pixmap = QPixmap('image.png')
+        # self.ui.pic1.setPixmap(pixmap)
+        # my_cursor.execute("INSERT INTO workers(ID,first_name,last_name,Na_code,Pic) VALUES(3,'nima','gnb',8,'')")
+
+    @staticmethod
+    def update(na_code,first_name,last_name,search_code):
+        con = connect("HR.db")
+        my_cursor = con.cursor()
+        my_cursor.execute(
+            f'UPDATE workers SET na_code = "{na_code}" , first_name ="{first_name}" , last_name = "{last_name}" WHERE na_code = "{search_code}" ')
+        my_cursor.execute('SELECT * FROM workers')
+        con.commit()
+        fetch = my_cursor.fetchall()
+        return fetch
